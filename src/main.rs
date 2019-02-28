@@ -14,17 +14,19 @@ Example: divisors [3, 5] maximum nuber below 10 (9)
 */
 
 fn calculate_the_sum(maximum_number: i32) -> i32 {
-    let divisors = [3, 5];
+    let divisors: Vec<i32> = vec![3, 5];
 
-    let arrays: [i32; 2] = divisors.iter().map(|x| x + 2);
+    let result: i32 = divisors
+        .into_iter()
+        .map(|x| {
+            (0i32..(maximum_number / x))
+                .map(|y| y + 1)
+                .map(|y| y * x)
+                .fold(0, |acc, y| acc + y)
+        })
+        .fold(0, |acc, x| acc + x);
 
-    println!("{:?}", arrays);
-
-    4
-}
-
-fn main() {
-    calculate_the_sum(9);
+    result
 }
 
 #[cfg(test)]
@@ -34,4 +36,9 @@ mod test {
     fn test() {
         assert_eq!(calculate_the_sum(9), 23)
     }
+}
+
+fn main() {
+    let sum = calculate_the_sum(9);
+    print!("{}", sum)
 }
